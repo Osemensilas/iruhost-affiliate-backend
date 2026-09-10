@@ -75,6 +75,21 @@ class AuthController extends Controller
             ]);
         }
 
+        $userId = $user->user_id;
+        $referralCode = $user->referral_code;
+
+        $accoutBal = UserAccount::where('user_id', $userId)->first();
+
+        if (!$accoutBal){
+            UserAccount::create([
+                'user_id' => $userId,
+                'referral_code' => $referralCode,
+                'withdraw' => 0,
+                'total_earnings' => 0,
+                'balance' => 0
+            ]);
+        }
+
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
