@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://affiliate.iruhost.com'],
+    'allowed_origins' => ['https://affiliate-backend.iruhost.com'],
 
     'allowed_origins_patterns' => [],
 
