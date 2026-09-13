@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AffiliateUser;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -25,11 +26,21 @@ class UserController extends Controller
 
         $user = AffiliateUser::with('account')->where('user_id', $userId)->first();
 
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Affiliate user not found'
+            ], 404);
+        }
+
+        $referralCode  = $user['referral_code'];
+
+        $referrals = User::where('referred_by', $referralCode)->get();
+
         return response()->json([
             "status" => "success",
             "message" => "From get referrals",
-            "user" => $user,
-            "referral_code" => $user['referral_code']
+            "referrals" => $referrals,
         ]);
     }
 }
