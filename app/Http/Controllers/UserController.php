@@ -23,12 +23,12 @@ class UserController extends Controller
     public function GetReferrals(Request $request){
         $userId = $request->user()->user_id;
 
-        // $user = AffiliateUser::with('account')->where('user_id', $userId)->first();
+        $user = AffiliateUser::with('account')->where('user_id', $userId)->first();
 
         return response()->json([
             "status" => "success",
             "message" => "From get referrals",
-            "user" => $userId
+            "user" => $user
         ]);
     }
 }
