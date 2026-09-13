@@ -16,3 +16,4 @@ Route::post('/logout', [AuthController::class, 'Logout'])->middleware('auth:sanc
 
 /*User Controller Route*/
 Route::middleware('auth:sanctum')->get('/fetch-user', [UserController::class, 'FetchUser']);
+Route::middleware('auth:sanctum')->get('/get-referrals', [UserController::class, 'GetReferrals']);
