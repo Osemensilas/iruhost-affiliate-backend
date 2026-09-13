@@ -28,7 +28,8 @@ class UserController extends Controller
         return response()->json([
             "status" => "success",
             "message" => "From get referrals",
-            "user" => $user
+            "user" => $user,
+            "referral_code" => $user['referral_code']
         ]);
     }
 }
