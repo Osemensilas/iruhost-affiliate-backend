@@ -48,6 +48,14 @@ class UserController extends Controller
             ->limit(5)
             ->get();
 
+        if ($products < 1){
+           return response()->json([
+                'status' => 'success',
+                'message' => 'From get referrals',
+                'products' => []
+            ]); 
+        }
+
         return response()->json([
             'status' => 'success',
             'message' => 'From get referrals',
