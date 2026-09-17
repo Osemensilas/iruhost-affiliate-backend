@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AffiliateUser;
 use App\Models\User;
+use App\Models\Products;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -24,7 +25,9 @@ class UserController extends Controller
     public function GetReferrals(Request $request){
         $userId = $request->user()->user_id;
 
-        $user = AffiliateUser::with('account')->where('user_id', $userId)->first();
+        $user = AffiliateUser::with('account')
+            ->where('user_id', $userId)
+            ->first();
 
         if (!$user) {
             return response()->json([
@@ -33,14 +36,22 @@ class UserController extends Controller
             ], 404);
         }
 
-        $referralCode  = $user['referral_code'];
+        $referralCode = $user->referral_code;
 
-        $referrals = User::where('referred_by', $referralCode)->get();
+        // Get all users referred by this affiliate
+        $referredUserIds = User::where('referred_by', $referralCode)
+            ->pluck('user_id');
+
+        // Get the 5 most recent products bought by those users
+        $products = Products::whereIn('user_id', $referredUserIds)
+            ->latest()
+            ->limit(5)
+            ->get();
 
         return response()->json([
-            "status" => "success",
-            "message" => "From get referrals",
-            "referrals" => $referrals,
+            'status' => 'success',
+            'message' => 'From get referrals',
+            'products' => $products
         ]);
     }
 }
