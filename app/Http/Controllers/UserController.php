@@ -71,7 +71,7 @@ class UserController extends Controller
 
         $referralCode = $user->referral_code;
 
-        $history = History::whereIn('user_id', $referralCode);
+        $history = History::whereIn('user_id', $referralCode)->get();
 
         return response()->json([
             'status' => 'success',
