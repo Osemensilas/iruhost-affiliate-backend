@@ -42,12 +42,6 @@ class UserController extends Controller
         $referredUserIds = User::where('referred_by', $referralCode)
             ->pluck('user_id');
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'From get referrals',
-            'products' => $referredUserIds
-        ]);
-
         // Get the 5 most recent products bought by those users
         $products = Transactions::whereIn('user_id', $referredUserIds)
             ->latest()
@@ -62,10 +56,10 @@ class UserController extends Controller
         //     ]); 
         // }
 
-        // return response()->json([
-        //     'status' => 'success',
-        //     'message' => 'From get referrals',
-        //     'products' => $products
-        // ]);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'From get referrals',
+            'products' => $products
+        ]);
     }
 }
