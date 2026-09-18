@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AffiliateUser;
 use App\Models\User;
-use App\Models\Products;
+use App\Models\Transactions;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -43,7 +43,7 @@ class UserController extends Controller
             ->pluck('user_id');
 
         // Get the 5 most recent products bought by those users
-        $products = Products::whereIn('user_id', $referredUserIds)
+        $products = Transactions::whereIn('user_id', $referredUserIds)
             ->latest()
             ->limit(5)
             ->get();
