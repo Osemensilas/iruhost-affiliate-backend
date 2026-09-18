@@ -6,6 +6,7 @@ use App\Models\AffiliateUser;
 use App\Models\User;
 use App\Models\Transactions;
 use Illuminate\Http\Request;
+use App\Models\History;
 
 class UserController extends Controller
 {
@@ -70,10 +71,13 @@ class UserController extends Controller
 
         $referralCode = $user->referral_code;
 
+        $history = History::whereIn('user_id', $referralCode);
+
         return response()->json([
             'status' => 'success',
             'message' => 'Fetching user user referal history',
-            'products' => $referralCode
+            'products' => $history,
+            'referalId' => $referralCode,
         ]);
     }
 }
