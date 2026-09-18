@@ -55,4 +55,25 @@ class UserController extends Controller
             'products' => $products
         ]);
     }
+
+    public function GetReferalHistory(Request $request){
+        $userId = $request->user()->user_id;
+
+        $user = AffiliateUser::with('account')->where('user_id', $userId)->first();
+
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Affiliate user not found'
+            ], 404);
+        }
+
+        $referralCode = $user->referral_code;
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Fetching user user referal history',
+            'products' => $referralCode
+        ]);
+    }
 }
